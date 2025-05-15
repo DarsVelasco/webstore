@@ -1,0 +1,106 @@
+/* Button Base Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    margin: 5px;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: #2196F3;
+    color: white;
+    border: 2px solid #2196F3;
+}
+
+.btn-secondary:hover {
+    background-color: #1976D2;
+    border-color: #1976D2;
+}
+
+/* Outline Button */
+.btn-outline {
+    background-color: transparent;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+
+.btn-outline:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: #f44336;
+    color: white;
+    border: 2px solid #f44336;
+}
+
+.btn-danger:hover {
+    background-color: #da190b;
+    border-color: #da190b;
+}
+
+/* Small Button */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+/* Block Button */
+.btn-block {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Disabled Button */
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Shopping Cart Button */
+.btn-cart {
+    background-color: #FF9800;
+    color: white;
+    border: 2px solid #FF9800;
+}
+
+.btn-cart:hover {
+    background-color: #F57C00;
+    border-color: #F57C00;
+}
+
+/* Wishlist Button */
+.btn-wishlist {
+    background-color: #E91E63;
+    color: white;
+    border: 2px solid #E91E63;
+}
+
+.btn-wishlist:hover {
+    background-color: #C2185B;
+    border-color: #C2185B;
+} 
