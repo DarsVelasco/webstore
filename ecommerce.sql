@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ecommerce
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `cart_items` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `inventory_logs` (
   KEY `action_by` (`action_by`),
   CONSTRAINT `inventory_logs_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   CONSTRAINT `inventory_logs_ibfk_2` FOREIGN KEY (`action_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +128,7 @@ CREATE TABLE `inventory_logs` (
 
 LOCK TABLES `inventory_logs` WRITE;
 /*!40000 ALTER TABLE `inventory_logs` DISABLE KEYS */;
+INSERT INTO `inventory_logs` VALUES (1,57,'sold',1,3,'2025-05-16 12:49:43'),(2,56,'sold',1,3,'2025-05-16 12:49:53'),(3,85,'sold',1,3,'2025-05-16 12:52:06');
 /*!40000 ALTER TABLE `inventory_logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +150,7 @@ CREATE TABLE `order_items` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,6 +159,7 @@ CREATE TABLE `order_items` (
 
 LOCK TABLES `order_items` WRITE;
 /*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
+INSERT INTO `order_items` VALUES (1,1,57,1,14.99),(2,2,56,1,24.99),(3,3,85,1,19.99),(4,4,59,1,499.99),(5,4,75,1,29.99),(6,4,78,1,15.99),(7,5,57,1,14.99);
 /*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,12 +174,14 @@ CREATE TABLE `orders` (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `status` enum('pending','paid','shipped','delivered') DEFAULT 'pending',
+  `status` enum('pending','processing','shipped','delivered','cancelled') DEFAULT 'pending',
+  `address` text NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
   `order_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +221,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (56,3,'World History 101','Comprehensive guide to world history.','uploads/products/product_682605b9432d6.png',24.99,100,'2025-05-15 13:15:02'),(57,3,'Children\'s Bedtime Stories','Colorful and fun bedtime stories.','uploads/products/product_682605caf327e.jpg',14.99,90,'2025-05-15 13:15:02'),(58,4,'Non-stick Frying Pan','Durable frying pan with non-stick coating.','uploads/products/product_682606d305055.webp',25.99,75,'2025-05-15 13:15:02'),(59,4,'Sofa Set - 3 Piece','Comfortable and stylish sofa set.','uploads/products/product_682606c675851.jpg',499.99,10,'2025-05-15 13:15:02'),(60,4,'LED Table Lamp','Adjustable table lamp with touch control.','uploads/products/product_682606b69f25b.jpg',34.99,60,'2025-05-15 13:15:02'),(61,4,'Electric Kettle','1.5L electric kettle with auto shut-off.','uploads/products/product_6826069f75bae.webp',29.99,100,'2025-05-15 13:15:02'),(62,5,'Facial Cleanser','Gentle cleanser for daily use.','uploads/products/product_6826068dd51a8.jpg',12.99,180,'2025-05-15 13:15:02'),(63,5,'Moisturizing Lotion','Hydrating body lotion.','uploads/products/product_6826067fd510c.webp',15.99,150,'2025-05-15 13:15:02'),(64,5,'Lipstick Set','Set of 5 matte lipsticks.','uploads/products/product_682606728825f.jpg',22.99,90,'2025-05-15 13:15:02'),(65,5,'Hair Dryer 2200W','Powerful hair dryer with heat settings.','uploads/products/product_68260667803a9.jpg',49.99,40,'2025-05-15 13:15:02'),(66,6,'Building Blocks Set','Creative play for kids aged 3+.','uploads/products/product_6826065577ed6.jpg',19.99,120,'2025-05-15 13:15:02'),(67,6,'Remote Control Car','Fast RC car with rechargeable battery.','uploads/products/product_6826064761a5d.webp',34.99,60,'2025-05-15 13:15:02'),(68,6,'Board Game Classic','Family fun board game.','uploads/products/product_68260637b06c8.webp',29.99,80,'2025-05-15 13:15:02'),(69,6,'Dollhouse Mini Set','Mini dollhouse with furniture.','uploads/products/product_6826062951558.jpg',39.99,55,'2025-05-15 13:15:02'),(70,7,'Yoga Mat','Non-slip yoga mat with carrying strap.','uploads/products/product_68260618f247b.webp',24.99,100,'2025-05-15 13:15:02'),(71,7,'Mountain Bike Helmet','Adjustable and protective helmet.','uploads/products/product_6826060b0e371.webp',49.99,45,'2025-05-15 13:15:02'),(72,7,'Camping Tent - 4 Person','Easy setup waterproof tent.','uploads/products/product_682605fec11d0.jpg',129.99,25,'2025-05-15 13:15:02'),(73,7,'Dumbbell Set 20kg','Adjustable dumbbell set.','uploads/products/product_682605f135a8e.jpg',59.99,70,'2025-05-15 13:15:02'),(74,8,'Car Vacuum Cleaner','Portable vacuum cleaner for car interiors.','uploads/products/product_682605e151d23.jpg',39.99,90,'2025-05-15 13:15:02'),(75,8,'LED Headlight Bulbs','Bright and efficient car headlights.','uploads/products/6825ff184a38f_1747320600.jpg',29.99,75,'2025-05-15 13:15:02'),(76,8,'Car Seat Cover Set','Universal fit for most vehicles.','uploads/products/682600a829c56_1747321000.jpg',59.99,50,'2025-05-15 13:15:02'),(77,8,'Dash Cam 1080p','HD dash cam with night vision.','uploads/products/product_6826041f48544.webp',89.99,35,'2025-05-15 13:15:02'),(78,9,'Organic Rice 5kg','Premium long grain organic rice.','uploads/products/product_68260411e33b9.png',15.99,150,'2025-05-15 13:15:02'),(79,9,'Ground Coffee 1lb','Freshly roasted Arabica beans.','uploads/products/product_682603b7ba663.webp',11.99,120,'2025-05-15 13:15:02'),(80,9,'Olive Oil 1L','Extra virgin cold-pressed olive oil.','uploads/products/product_682603abd9dff.webp',9.99,140,'2025-05-15 13:15:02'),(81,9,'Breakfast Cereal','High fiber whole grain cereal.','uploads/products/product_68260399e7f80.webp',6.99,110,'2025-05-15 13:15:02'),(82,10,'Dog Food 10kg','Complete and balanced dry food.','uploads/products/product_6826031cbfb09.jpg',34.99,100,'2025-05-15 13:15:02'),(83,10,'Cat Scratching Post','Durable scratching post with toys.','uploads/products/product_6826030f748e3.jpg',29.99,50,'2025-05-15 13:15:02'),(84,10,'Pet Shampoo','Gentle formula for dogs and cats.','uploads/products/product_68260300cbc3b.jpg',12.99,70,'2025-05-15 13:15:02'),(85,10,'Chew Toy Pack','Set of 5 toys for dogs.','uploads/products/6825ff756c50a_1747320693.jpg',19.99,90,'2025-05-15 13:15:02');
+INSERT INTO `products` VALUES (56,3,'World History 101','Comprehensive guide to world history.','uploads/products/product_682605b9432d6.png',24.99,99,'2025-05-15 13:15:02'),(57,3,'Children\'s Bedtime Stories','Colorful and fun bedtime stories.','uploads/products/product_682605caf327e.jpg',14.99,88,'2025-05-15 13:15:02'),(58,4,'Non-stick Frying Pan','Durable frying pan with non-stick coating.','uploads/products/product_682606d305055.webp',25.99,75,'2025-05-15 13:15:02'),(59,4,'Sofa Set - 3 Piece','Comfortable and stylish sofa set.','uploads/products/product_682606c675851.jpg',499.99,9,'2025-05-15 13:15:02'),(60,4,'LED Table Lamp','Adjustable table lamp with touch control.','uploads/products/product_682606b69f25b.jpg',34.99,60,'2025-05-15 13:15:02'),(61,4,'Electric Kettle','1.5L electric kettle with auto shut-off.','uploads/products/product_6826069f75bae.webp',29.99,100,'2025-05-15 13:15:02'),(62,5,'Facial Cleanser','Gentle cleanser for daily use.','uploads/products/product_6826068dd51a8.jpg',12.99,180,'2025-05-15 13:15:02'),(63,5,'Moisturizing Lotion','Hydrating body lotion.','uploads/products/product_6826067fd510c.webp',15.99,150,'2025-05-15 13:15:02'),(64,5,'Lipstick Set','Set of 5 matte lipsticks.','uploads/products/product_682606728825f.jpg',22.99,90,'2025-05-15 13:15:02'),(65,5,'Hair Dryer 2200W','Powerful hair dryer with heat settings.','uploads/products/product_68260667803a9.jpg',49.99,40,'2025-05-15 13:15:02'),(66,6,'Building Blocks Set','Creative play for kids aged 3+.','uploads/products/product_6826065577ed6.jpg',19.99,120,'2025-05-15 13:15:02'),(67,6,'Remote Control Car','Fast RC car with rechargeable battery.','uploads/products/product_6826064761a5d.webp',34.99,60,'2025-05-15 13:15:02'),(68,6,'Board Game Classic','Family fun board game.','uploads/products/product_68260637b06c8.webp',29.99,80,'2025-05-15 13:15:02'),(69,6,'Dollhouse Mini Set','Mini dollhouse with furniture.','uploads/products/product_6826062951558.jpg',39.99,55,'2025-05-15 13:15:02'),(70,7,'Yoga Mat','Non-slip yoga mat with carrying strap.','uploads/products/product_68260618f247b.webp',24.99,100,'2025-05-15 13:15:02'),(71,7,'Mountain Bike Helmet','Adjustable and protective helmet.','uploads/products/product_6826060b0e371.webp',49.99,45,'2025-05-15 13:15:02'),(72,7,'Camping Tent - 4 Person','Easy setup waterproof tent.','uploads/products/product_682605fec11d0.jpg',129.99,25,'2025-05-15 13:15:02'),(73,7,'Dumbbell Set 20kg','Adjustable dumbbell set.','uploads/products/product_682605f135a8e.jpg',59.99,70,'2025-05-15 13:15:02'),(74,8,'Car Vacuum Cleaner','Portable vacuum cleaner for car interiors.','uploads/products/product_682605e151d23.jpg',39.99,90,'2025-05-15 13:15:02'),(75,8,'LED Headlight Bulbs','Bright and efficient car headlights.','uploads/products/6825ff184a38f_1747320600.jpg',29.99,74,'2025-05-15 13:15:02'),(76,8,'Car Seat Cover Set','Universal fit for most vehicles.','uploads/products/682600a829c56_1747321000.jpg',59.99,50,'2025-05-15 13:15:02'),(77,8,'Dash Cam 1080p','HD dash cam with night vision.','uploads/products/product_6826041f48544.webp',89.99,35,'2025-05-15 13:15:02'),(78,9,'Organic Rice 5kg','Premium long grain organic rice.','uploads/products/product_68260411e33b9.png',15.99,149,'2025-05-15 13:15:02'),(79,9,'Ground Coffee 1lb','Freshly roasted Arabica beans.','uploads/products/product_682603b7ba663.webp',11.99,120,'2025-05-15 13:15:02'),(80,9,'Olive Oil 1L','Extra virgin cold-pressed olive oil.','uploads/products/product_682603abd9dff.webp',9.99,140,'2025-05-15 13:15:02'),(81,9,'Breakfast Cereal','High fiber whole grain cereal.','uploads/products/product_68260399e7f80.webp',6.99,110,'2025-05-15 13:15:02'),(82,10,'Dog Food 10kg','Complete and balanced dry food.','uploads/products/product_6826031cbfb09.jpg',34.99,100,'2025-05-15 13:15:02'),(83,10,'Cat Scratching Post','Durable scratching post with toys.','uploads/products/product_6826030f748e3.jpg',29.99,50,'2025-05-15 13:15:02'),(84,10,'Pet Shampoo','Gentle formula for dogs and cats.','uploads/products/product_68260300cbc3b.jpg',12.99,70,'2025-05-15 13:15:02'),(85,10,'Chew Toy Pack','Set of 5 toys for dogs.','uploads/products/6825ff756c50a_1747320693.jpg',19.99,89,'2025-05-15 13:15:02');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,7 +275,7 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +284,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','Darwin Velasco','darwin.velasco1210@gmail.com','$2y$10$AKZ5OB/UnwJ7gTYUR6sPlOs.iQVxpezFfue2OfmJd9ez8cPGeK72q','993414121','Tiniguiban','2025-05-15 04:10:55'),(2,'customer','Aprille Guanson','aprille1@gmail.com','$2y$10$kmLL3zFmwbp/AseNFl8.J.kFI4sYQ4az1CfaPEyyYf0b6hKlg0cOq','09946768879','Tiniguiban','2025-05-15 13:37:16');
+INSERT INTO `users` VALUES (1,'admin','Darwin Velasco','darwin.velasco1210@gmail.com','$2y$10$AKZ5OB/UnwJ7gTYUR6sPlOs.iQVxpezFfue2OfmJd9ez8cPGeK72q','993414121','Tiniguiban','2025-05-15 04:10:55'),(2,'customer','Aprille Guanson','aprille1@gmail.com','$2y$10$kmLL3zFmwbp/AseNFl8.J.kFI4sYQ4az1CfaPEyyYf0b6hKlg0cOq','09946768879','Tiniguiban','2025-05-15 13:37:16'),(3,'admin','RJ Coloquit','rjcoloquit@gmail.com','$2y$10$2IZbnmlwx5ZlF4acI7GiNOtFEVDQznWjdU5JAj8IBfsMF13vJCBdW','09563080167','San Manuel Grounds','2025-05-16 12:20:44');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +305,7 @@ CREATE TABLE `wishlist` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +314,7 @@ CREATE TABLE `wishlist` (
 
 LOCK TABLES `wishlist` WRITE;
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-INSERT INTO `wishlist` VALUES (1,1,56,'2025-05-15 16:21:50');
+INSERT INTO `wishlist` VALUES (1,1,56,'2025-05-15 16:21:50'),(2,3,58,'2025-05-16 14:16:17');
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -323,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-16  0:46:28
+-- Dump completed on 2025-05-16 22:26:33
